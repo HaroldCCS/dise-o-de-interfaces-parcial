@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcial — Diseño de Interfaces</title>
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #718096;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
+
+    --c1: #e8f4fd; --c1b: #3182ce; /* Usabilidad - azul */
+    --c2: #fef5e4; --c2b: #d69e2e; /* Heurísticas - amarillo */
+    --c3: #e6fffa; --c3b: #2c7a7b; /* Accesibilidad - verde azulado */
+    --c4: #fdf2f8; --c4b: #9b2c8b; /* Design Thinking - morado */
+    --c5: #fff5f5; --c5b: #c53030; /* UX Herramientas - rojo */
+    --c6: #f0fff4; --c6b: #276749; /* Figma/Prototipado - verde */
+    --c7: #ebf8ff; --c7b: #2b6cb0; /* RA - celeste oscuro */
+    --c8: #fffaf0; --c8b: #c05621; /* RV - naranja */
+    --c9: #f7fafc; --c9b: #4a5568; /* Three.js/Unity - gris */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .site-header {
+    background: #1a202c;
+    color: white;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .site-header h1 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.5px; }
+  .site-header p { color: #a0aec0; font-size: 0.85rem; margin-top: 4px; }
+
+  /* Controls */
+  .controls {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .controls span { font-size: 0.82rem; color: var(--muted); }
+  .btn {
+    padding: 7px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--bg); }
+  .btn-primary {
+    background: #1a202c;
+    color: white;
+    border-color: #1a202c;
+  }
+  .btn-primary:hover { background: #2d3748; }
+
+  /* Nav index */
+  .nav-index {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+  }
+  .nav-index h2 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 10px; }
+  .nav-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nav-links a {
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    font-size: 0.82rem;
+    color: var(--text);
+    transition: all 0.15s;
+  }
+  .nav-links a:hover { background: #1a202c; color: white; border-color: #1a202c; }
+
+  /* Main content */
+  .main { max-width: 860px; margin: 0 auto; padding: 32px 20px; }
+
+  /* Theme sections */
+  .tema {
+    margin-bottom: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .tema-header {
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tema-header h2 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .tema-badge {
+    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    opacity: 0.75;
+  }
+  .tema-body { background: var(--surface); }
+
+  /* Subtema */
+  .subtema { padding: 8px 22px 0; }
+  .subtema-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--muted);
+    font-weight: 600;
+    padding: 12px 0 6px;
+    border-top: 1px solid var(--border);
+    margin-top: 2px;
+  }
+  .subtema:first-child .subtema-title { border-top: none; padding-top: 6px; }
+
+  /* Question card */
+  .q-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 10px 0 14px;
+    overflow: hidden;
+  }
+  .q-text {
+    padding: 14px 16px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    background: var(--bg);
+  }
+  .q-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .q-answer-area { padding: 0 16px 14px; }
+  .show-btn {
+    margin-top: 10px;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 0.8rem;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .show-btn:hover { border-color: #1a202c; color: #1a202c; }
+  .answer-block { display: none; margin-top: 10px; }
+  .answer-block.visible { display: block; }
+
+  .answer-correct {
+    background: #f0fff4;
+    border-left: 3px solid #38a169;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+  }
+  .answer-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #38a169;
+    margin-bottom: 3px;
+  }
+  .mnemo {
+    background: #fffbea;
+    border-left: 3px solid #d69e2e;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+  }
+  .mnemo-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #d69e2e;
+    margin-bottom: 3px;
+  }
+  .nota {
+    background: #fff5f5;
+    border-left: 3px solid #fc8181;
+    padding: 8px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.8rem;
+    color: #c53030;
+    margin-top: 6px;
+  }
+
+  /* Theme color schemes */
+  .t1 .tema-header { background: var(--c1); }
+  .t1 .tema-header h2, .t1 .tema-badge { color: var(--c1b); }
+  .t1 .tema-badge { background: var(--c1); border: 1px solid var(--c1b); }
+
+  .t2 .tema-header { background: var(--c2); }
+  .t2 .tema-header h2, .t2 .tema-badge { color: var(--c2b); }
+  .t2 .tema-badge { background: var(--c2); border: 1px solid var(--c2b); }
+
+  .t3 .tema-header { background: var(--c3); }
+  .t3 .tema-header h2, .t3 .tema-badge { color: var(--c3b); }
+  .t3 .tema-badge { background: var(--c3); border: 1px solid var(--c3b); }
+
+  .t4 .tema-header { background: var(--c4); }
+  .t4 .tema-header h2, .t4 .tema-badge { color: var(--c4b); }
+  .t4 .tema-badge { background: var(--c4); border: 1px solid var(--c4b); }
+
+  .t5 .tema-header { background: var(--c5); }
+  .t5 .tema-header h2, .t5 .tema-badge { color: var(--c5b); }
+  .t5 .tema-badge { background: var(--c5); border: 1px solid var(--c5b); }
+
+  .t6 .tema-header { background: var(--c6); }
+  .t6 .tema-header h2, .t6 .tema-badge { color: var(--c6b); }
+  .t6 .tema-badge { background: var(--c6); border: 1px solid var(--c6b); }
+
+  .t7 .tema-header { background: var(--c7); }
+  .t7 .tema-header h2, .t7 .tema-badge { color: var(--c7b); }
+  .t7 .tema-badge { background: var(--c7); border: 1px solid var(--c7b); }
+
+  .t8 .tema-header { background: var(--c8); }
+  .t8 .tema-header h2, .t8 .tema-badge { color: var(--c8b); }
+  .t8 .tema-badge { background: var(--c8); border: 1px solid var(--c8b); }
+
+  .t9 .tema-header { background: var(--c9); }
+  .t9 .tema-header h2, .t9 .tema-badge { color: var(--c9b); }
+  .t9 .tema-badge { background: var(--c9); border: 1px solid var(--c9b); }
+
+  /* Progress bar */
+  .progress-bar-wrap {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+  }
+  .progress-info { font-size: 0.78rem; color: var(--muted); margin-bottom: 5px; }
+  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; }
+  .progress-fill { height: 100%; background: #38a169; border-radius: 2px; transition: width 0.3s; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 1.3rem; }
+    .controls { padding: 10px 16px; }
+    .main { padding: 20px 12px; }
+    .tema-header h2 { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>Parcial — Diseño de Interfaces</h1>
+  <p>25 preguntas · 9 temas · con mnemotécnicas</p>
+</header>
+
+<div class="controls">
+  <span>Autoevaluación:</span>
+  <button class="btn btn-primary" onclick="toggleAll(true)">Mostrar todas</button>
+  <button class="btn" onclick="toggleAll(false)">Ocultar todas</button>
+  <button class="btn" onclick="resetProgress()">Reiniciar progreso</button>
+  <span id="progress-text" style="margin-left:auto; font-size:0.82rem; color:#718096;"></span>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-info">Respuestas vistas: <span id="seen-count">0</span> / 25</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<nav class="nav-index">
+  <h2>Temas</h2>
+  <div class="nav-links">
+    <a href="#usabilidad">Usabilidad</a>
+    <a href="#heuristicas">Heurísticas de Nielsen</a>
+    <a href="#accesibilidad">Accesibilidad</a>
+    <a href="#design-thinking">Design Thinking</a>
+    <a href="#ux-herramientas">UX — Herramientas</a>
+    <a href="#leyes">Leyes de Diseño</a>
+    <a href="#figma">Figma / Prototipado</a>
+    <a href="#ra">Realidad Aumentada</a>
+    <a href="#rv">Realidad Virtual</a>
+    <a href="#threejs-unity">Three.js &amp; Unity</a>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- ── TEMA 1: USABILIDAD ── -->
+  <section class="tema t1" id="usabilidad">
+    <div class="tema-header">
+      <h2>📐 Usabilidad</h2>
+      <span class="tema-badge">4 preguntas</span>
+    </div>
+    <div class="tema-body">
+
+      <div class="subtema">
+        <div class="subtema-title">Definición</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 3</div>
+            "Medida en la que un producto puede ser utilizado por usuarios específicos para alcanzar los objetivos buscados con eficacia, eficiencia y satisfacción en un contexto concreto de uso"
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Usabilidad
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"EES"</strong> — Eficacia, Eficiencia, Satisfacción. Si una definición tiene estas tres palabras juntas, habla de <em>Usabilidad</em> (norma ISO 9241).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 18</div>
+            Son conceptos relacionados con Interacción, diseño de la experiencia de usuario:
+            Usabilidad / Accesibilidad / Arquitectura de Información / Prototipado / Todos
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Todos
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"UAPP"</strong> — Usabilidad, Accesibilidad, Prototipado, Protección de información. Cuando la lista tiene conceptos clave de UX, la respuesta es <em>Todos</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subtema">
+        <div class="subtema-title">Factores y beneficios</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 9</div>
+            Son algunos de los factores de la usabilidad:
+            A) Enlaces ocultos, repetitivos, islas de información &nbsp;|&nbsp; B) Web multiidioma, apariencia, formularios &nbsp;|&nbsp; C) Simplicidad
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Simplicidad
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                La opción A describe <em>barreras</em> de usabilidad, la B son características de un sitio. Solo <strong>Simplicidad</strong> es un factor/principio de usabilidad en sí mismo.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 17</div>
+            ¿Cuál NO es un beneficio de Usabilidad?
+            A) Menor Costo de Mantenimiento &nbsp;|&nbsp; B) Usuarios Satisfechos &nbsp;|&nbsp; C) Menor Costo de Soporte &nbsp;|&nbsp; D) Interfaz Atractiva
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Interfaz Atractiva
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                "Bonito ≠ Usable". Una interfaz puede ser atractiva sin ser fácil de usar. La usabilidad trata de <em>eficacia y eficiencia</em>, no de estética. Las otras tres sí son beneficios directos.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── TEMA 2: HEURÍSTICAS DE NIELSEN ── -->
+  <section class="tema t2" id="heuristicas">
+    <div class="tema-header">
+      <h2>🔟 Heurísticas de Nielsen</h2>
+      <span class="tema-badge">2 preguntas</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Identificación de heurísticas</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 4</div>
+            ¿Cuál de las siguientes opciones NO es una Heurística de Nielsen?
+            A) Consistencia y Estándares &nbsp;|&nbsp; B) Prevención de errores &nbsp;|&nbsp; C) Agradar visualmente al usuario &nbsp;|&nbsp; D) Visibilidad del estado del sistema
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Agradar visualmente al usuario
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                Nielsen no menciona "agradar". Sus 10 heurísticas son funcionales/cognitivas, no estéticas (excepto la #8 que es "diseño minimalista"). Si suena a "hacer bonito", <em>no es de Nielsen</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 20</div>
+            ¿Cuáles de estas opciones forman parte de las Heurísticas de Nielsen?
+            A) Reconocimiento en lugar de recordar &nbsp;|&nbsp; B) Facilita la navegación del usuario &nbsp;|&nbsp; C) Coherencia y estándares &nbsp;|&nbsp; D) Flexibilidad y eficiencia de uso
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                A, C y D son heurísticas de Nielsen (#6, #4 y #7 respectivamente)
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"RCF"</strong> — Reconocimiento, Coherencia, Flexibilidad. Recuerda: "Facilitar la navegación" no existe como heurística oficial; es una consecuencia, no una regla. Si el enunciado es demasiado genérico, probablemente no sea de Nielsen.
+              </div>
+              <div class="nota">
+                ⚠️ Pregunta de selección múltiple: las opciones A, C y D son correctas simultáneamente.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 3: ACCESIBILIDAD ── -->
+  <section class="tema t3" id="accesibilidad">
+    <div class="tema-header">
+      <h2>♿ Accesibilidad</h2>
+      <span class="tema-badge">1 pregunta</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Definición</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 13</div>
+            "Condición que deben cumplir los entornos, procesos, bienes, productos y servicios... para ser comprensibles, utilizables y practicables por todas las personas en condiciones de seguridad y comodidad de la forma más autónoma y natural posible"
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Accesibilidad
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                Palabras clave: <strong>"todas las personas"</strong> + <strong>"autónoma"</strong>. Cuando la definición dice que algo debe servir para TODOS sin distinción, es <em>Accesibilidad</em>. La usabilidad habla de "usuarios específicos"; la accesibilidad habla de "todas las personas".
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 4: DESIGN THINKING ── -->
+  <section class="tema t4" id="design-thinking">
+    <div class="tema-header">
+      <h2>💡 Design Thinking e Innovación</h2>
+      <span class="tema-badge">2 preguntas</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Fases y proceso</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 19</div>
+            ¿Cuáles son los tres pasos para definir el problema u oportunidad en Innovación?
+            A) Declaración–Análisis–Solución &nbsp;|&nbsp; B) Empatizar–Definir–Idear &nbsp;|&nbsp; C) Idear–Prototipar–Validar &nbsp;|&nbsp; D) Empatizar–Observar–Validar
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Empatizar – Definir – Idear
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"EDI"</strong> — las primeras 3 fases del Design Thinking definen el problema: <em>Empatiza</em> con el usuario, <em>Define</em> el problema, <em>Idea</em> soluciones. Es como "¿Quién?, ¿Qué?, ¿Cómo?".
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 24</div>
+            El orden de las fases del Design Thinking son:
+            A) Empatizar–Definir–Prototipar–Idear–Evaluar &nbsp;|&nbsp; B) Definir–Empatizar–Idear–Prototipar–Evaluar &nbsp;|&nbsp; C) Empatizar–Idear–Definir–Prototipar–Evaluar &nbsp;|&nbsp; D) Empatizar–Definir–Idear–Prototipar–Evaluar
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Empatizar – Definir – Idear – Prototipar – Evaluar
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"EDIPE"</strong> — como "Édipe" (Edipo): <em>E</em>mpatizar, <em>D</em>efinir, <em>I</em>dear, <em>P</em>rototipar, <em>E</em>valuar. La clave: Idear siempre va ANTES de Prototipar, nunca después.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 5: UX HERRAMIENTAS ── -->
+  <section class="tema t5" id="ux-herramientas">
+    <div class="tema-header">
+      <h2>🛠 UX — Herramientas y Métodos</h2>
+      <span class="tema-badge">3 preguntas</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Herramientas UX</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 23</div>
+            ¿Qué herramienta UX nos ofrece mapear lo que el usuario dice, piensa, hace y siente?
+            A) Canvas de propuesta de valor &nbsp;|&nbsp; B) Red Routes &nbsp;|&nbsp; C) Mapa de empatía &nbsp;|&nbsp; D) Lean UX Canvas
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                El mapa de empatía
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"DHPS"</strong> — Dice, Hace, Piensa, Siente. Recuerda "Empatía = ponerse en los zapatos del otro". El <em>Mapa de Empatía</em> tiene literalmente 4 cuadrantes: ¿Qué dice? ¿Qué hace? ¿Qué piensa? ¿Qué siente?
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 6</div>
+            ¿A qué método de evaluación se refiere? "Hay unos expertos, conocidos como evaluadores, que examinan (inspeccionan) aspectos de la interfaz relacionados con usabilidad y accesibilidad"
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Método de inspección
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                Palabra clave: <strong>"examinan / inspeccionan"</strong>. El método de <em>Inspección</em> lo realizan <em>expertos</em> (no usuarios reales). Si el enunciado menciona evaluadores expertos que "revisan" la interfaz → Inspección. Si hay usuarios reales → Test.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="subtema">
+        <div class="subtema-title">Principios de navegación</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 16</div>
+            Cuando la interfaz está orientada al usuario se debe entregarle el control de la navegación, por lo que se debe contemplar:
+            A) Iteración flexible &nbsp;|&nbsp; B) Permitir interactuar a nivel de SO &nbsp;|&nbsp; C) El usuario puede interrumpir o deshacer su acción &nbsp;|&nbsp; D) Manual siempre presente &nbsp;|&nbsp; E) Permitir la personalización
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                El usuario puede interrumpir o deshacer su acción
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                Piensa en el <strong>Ctrl+Z</strong>. "Control al usuario" = darle la posibilidad de <em>deshacer</em>. Este concepto coincide con la Heurística #3 de Nielsen: "Usuario controla y tiene libertad". Es la opción más directamente ligada al concepto de "control de navegación".
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 6: LEYES DE DISEÑO ── -->
+  <section class="tema t6" id="leyes">
+    <div class="tema-header">
+      <h2>⚖️ Leyes y Principios de Diseño</h2>
+      <span class="tema-badge">1 pregunta</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Ley de Fitts</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 21</div>
+            La ley de Fitts indica que...
+            A) Los elementos interactivos deben ser muy grandes para verse &nbsp;|&nbsp; B) Los call to action deben ser llamativos para que les den click &nbsp;|&nbsp; C) El tiempo para adquirir un objetivo en función a la distancia y el tamaño del objetivo
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                El tiempo para adquirir un objetivo en función a la distancia y el tamaño del objetivo
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>Fitts = Física del click</strong>. Como en física: más cerca y más grande = más fácil de alcanzar. La fórmula mental: <em>T = f(Distancia / Tamaño)</em>. Botones grandes y cerca → menos tiempo para clickear.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 7: FIGMA ── -->
+  <section class="tema t7" id="figma">
+    <div class="tema-header">
+      <h2>🎨 Figma / Prototipado</h2>
+      <span class="tema-badge">2 preguntas</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Animaciones y transiciones</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 11</div>
+            Son transiciones que nos permite crear animaciones inteligentes:
+            A) Onclick &nbsp;|&nbsp; B) Smart Animated &nbsp;|&nbsp; C) Overlay
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Smart Animated
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"Smart = Inteligente"</strong> — la pregunta dice "animaciones inteligentes" y la respuesta se llama literalmente <em>Smart Animated</em>. Es una función de Figma que detecta automáticamente las diferencias entre frames y genera la transición.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 12</div>
+            ¿En qué ventana puedo activar la opción "Open Overlay"?
+            A) Design &nbsp;|&nbsp; B) Prototype &nbsp;|&nbsp; C) Code
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Prototype
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>Overlay es un comportamiento de interacción</strong> → va en el panel de <em>Prototype</em>. El panel Design es para estilos visuales; Code es para ver el CSS. Todo lo que sea "qué pasa cuando el usuario hace algo" → Prototype.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 8: REALIDAD AUMENTADA ── -->
+  <section class="tema t8" id="ra">
+    <div class="tema-header">
+      <h2>📱 Realidad Aumentada (RA)</h2>
+      <span class="tema-badge">7 preguntas</span>
+    </div>
+    <div class="tema-body">
+
+      <div class="subtema">
+        <div class="subtema-title">Elementos y requisitos</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 8</div>
+            ¿Cuáles son los elementos necesarios para leer realidad aumentada?
+            A) Dispositivo con cámara &nbsp;|&nbsp; B) Marcador o Código QR &nbsp;|&nbsp; C) Software &nbsp;|&nbsp; D) Todas las anteriores
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Todas las anteriores
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"CMS"</strong> — Cámara, Marcador, Software. Para que la RA funcione necesitas los tres: ver el mundo real (cámara), un punto de referencia (marcador/QR) y algo que procese y superponga (software). Sin cualquiera de los tres, no hay RA.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 14</div>
+            ¿Qué elementos se necesitan para trabajar en RA?
+            A) Vídeo, imagen, sonido &nbsp;|&nbsp; B) Fotografías, computadora, imágenes 3D &nbsp;|&nbsp; C) Dispositivo con cámara, software, código &nbsp;|&nbsp; D) Celular con cámara, fotografías, texto
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Dispositivo con cámara, software, código
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                Para <em>trabajar</em> (desarrollar) RA necesitas herramientas técnicas: <strong>cámara</strong> (ver), <strong>software</strong> (procesar) y <strong>código</strong> (programar). Las otras opciones describen recursos multimedia, no herramientas de desarrollo.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="subtema">
+        <div class="subtema-title">Tipos y formatos</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 22</div>
+            Tipos de Realidad Aumentada:
+            A) Posicionamiento &nbsp;|&nbsp; B) Georreferenciación &nbsp;|&nbsp; C) Con marker &nbsp;|&nbsp; D) Todas las anteriores
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Todas las anteriores
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"PGM"</strong> — Posicionamiento, Geo, Marker. Imagina las tres formas de "anclar" lo virtual al mundo: por <em>posición GPS</em>, por <em>ubicación geográfica</em> o por <em>un marcador físico</em>. Los tres son válidos → Todas.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 25</div>
+            ¿Qué tipos de información se puede mostrar en RA?
+            A) Códigos, GPS, etiquetas &nbsp;|&nbsp; B) Fotografías y vídeos &nbsp;|&nbsp; C) Texto, vídeo, enlaces, imágenes 3D &nbsp;|&nbsp; D) Música, vídeos, imágenes
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Texto, vídeo, enlaces, imágenes 3D
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                La opción C es la más <strong>completa y específica</strong>: incluye <em>imágenes 3D</em> que es lo característico de RA. Las otras opciones son parciales o incorrectas (GPS es para ubicar, no para mostrar; música no es lo más representativo de RA).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 2</div>
+            ¿Qué tipo de formatos tienen los modelos 3D para ser importados a AR?
+            A) .dwg &nbsp;|&nbsp; B) .fbx &nbsp;|&nbsp; C) .apk
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                .fbx
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>FBX = FilmBox</strong> (formato 3D estándar de Autodesk). Eliminación rápida: <em>.dwg</em> es AutoCAD (planos 2D), <em>.apk</em> es una app Android. Solo <em>.fbx</em> es un formato de modelo 3D real.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="subtema">
+        <div class="subtema-title">SDK Vuforia</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 7</div>
+            Las imágenes o frames que reconoce el SDK Vuforia se llaman:
+            A) vectors &nbsp;|&nbsp; B) objects &nbsp;|&nbsp; C) Targets
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Targets
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>Vuforia apunta a un "Target"</strong> — como una mirilla. En Vuforia, el marcador que la cámara detecta se llama <em>Image Target</em>. Piensa: "la cámara apunta al objetivo (target)". Es la terminología oficial de Vuforia.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 9: REALIDAD VIRTUAL ── -->
+  <section class="tema t9" id="rv">
+    <div class="tema-header">
+      <h2>🥽 Realidad Virtual (RV)</h2>
+      <span class="tema-badge">2 preguntas</span>
+    </div>
+    <div class="tema-body">
+      <div class="subtema">
+        <div class="subtema-title">Definición y elementos</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 15</div>
+            ¿Qué es la realidad virtual?
+            A) Conjunto de técnicas que aplican elementos virtuales sobre la realidad física &nbsp;|&nbsp; B) Cosa que existe en el mundo real &nbsp;|&nbsp; C) Representación de escenas o imágenes producida por un sistema informático que da sensación de existencia real &nbsp;|&nbsp; D) Interactúa con capacidades físicas del entorno
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Es la representación de escenas o imágenes de objetos producida por un sistema informático, que da la sensación de su existencia real
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>RV = Mundo completamente falso que parece real</strong>. La opción A describe RA (mezcla real+virtual). La C describe RV pura: todo lo genera el computador, nada es real. Truco: RA <em>aumenta</em> la realidad; RV la <em>reemplaza</em>.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 5</div>
+            ¿Cuáles son los elementos de realidad virtual?
+            A) electrónica, distancia, percepción &nbsp;|&nbsp; B) simulación, cognitivo, empatía &nbsp;|&nbsp; C) simulación, interacción, percepción &nbsp;|&nbsp; D) virtual, simulación, electrónica
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                simulación, interacción, percepción
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"SIP"</strong> — <em>S</em>imulación (crear el entorno), <em>I</em>nteracción (el usuario actúa en él), <em>P</em>ercepción (los sentidos lo reciben). Como un triángulo: el sistema simula, el usuario interactúa, los sentidos perciben.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEMA 10: THREE.JS Y UNITY ── -->
+  <section class="tema t9" id="threejs-unity">
+    <div class="tema-header">
+      <h2>⚙️ Three.js &amp; Unity</h2>
+      <span class="tema-badge">2 preguntas</span>
+    </div>
+    <div class="tema-body">
+
+      <div class="subtema">
+        <div class="subtema-title">Three.js</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 1</div>
+            Para trabajar con Three.js, siempre es necesario manejar lo siguiente:
+            A) Canvas, scene, mesh, camera &nbsp;|&nbsp; B) Canvas, scene, render, camera &nbsp;|&nbsp; C) Canvas, scene, render, geometry
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                Canvas, scene, render, camera
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"CSRC"</strong> — <em>C</em>anvas (pantalla), <em>S</em>cene (escenario), <em>R</em>ender (motor que dibuja), <em>C</em>amera (punto de vista). Piénsalo como cine: necesitas <em>lienzo, set, cámara y el que filma</em>. Sin el <em>render</em> nada aparece; sin la <em>camera</em> no hay perspectiva.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="subtema">
+        <div class="subtema-title">Unity Scripts</div>
+
+        <div class="q-card">
+          <div class="q-text">
+            <div class="q-num">Pregunta 10</div>
+            Cuando entramos a un Script en Unity, automáticamente se crean dos métodos, ¿cuáles son?
+            A) void Go() &nbsp;|&nbsp; B) void Starting() &nbsp;|&nbsp; C) void Update() &nbsp;|&nbsp; D) void Updating() &nbsp;|&nbsp; E) void Start()
+          </div>
+          <div class="q-answer-area">
+            <button class="show-btn" onclick="revealAnswer(this)">👁 Ver respuesta</button>
+            <div class="answer-block">
+              <div class="answer-correct">
+                <div class="answer-label">✅ RESPUESTA CORRECTA</div>
+                void Start() y void Update()
+              </div>
+              <div class="mnemo">
+                <div class="mnemo-label">💡 MNEMOTÉCNICA</div>
+                <strong>"SU — Start Up"</strong> — como encender una compu: primero hace <em>Start</em> (arranque, corre una vez), luego <em>Update</em> (actualiza cada frame). Los distractores tienen gerundio (Starting, Updating, Go) → Unity usa las formas simples sin gerundio.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer style="text-align:center; padding:24px; color:#a0aec0; font-size:0.78rem; border-top:1px solid #e2e8f0; margin-top:8px;">
+  Diseño de Interfaces · Parcial Study Guide · 25 preguntas
+</footer>
+
+<script>
+  // Track revealed answers
+  const seen = new Set();
+  const total = 25;
+
+  function revealAnswer(btn) {
+    const card = btn.closest('.q-card');
+    const block = card.querySelector('.answer-block');
+    const qNum = card.querySelector('.q-num').textContent;
+
+    if (!block.classList.contains('visible')) {
+      block.classList.add('visible');
+      btn.textContent = '🙈 Ocultar respuesta';
+      seen.add(qNum);
+      updateProgress();
+    } else {
+      block.classList.remove('visible');
+      btn.textContent = '👁 Ver respuesta';
+    }
+  }
+
+  function toggleAll(show) {
+    document.querySelectorAll('.q-card').forEach(card => {
+      const block = card.querySelector('.answer-block');
+      const btn = card.querySelector('.show-btn');
+      const qNum = card.querySelector('.q-num').textContent;
+      if (show) {
+        block.classList.add('visible');
+        btn.textContent = '🙈 Ocultar respuesta';
+        seen.add(qNum);
+      } else {
+        block.classList.remove('visible');
+        btn.textContent = '👁 Ver respuesta';
+      }
+    });
+    updateProgress();
+  }
+
+  function resetProgress() {
+    seen.clear();
+    toggleAll(false);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const count = seen.size;
+    document.getElementById('seen-count').textContent = count;
+    document.getElementById('progress-fill').style.width = (count / total * 100) + '%';
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
